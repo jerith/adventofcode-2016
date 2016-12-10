@@ -12,20 +12,15 @@ BuildTools: ocamlbuild
 Plugins: META (0.4), DevFiles (0.4)
 
 
-Executable "day01"
+Library "aoc_days"
   Path: src
-  MainIs: day01.ml
+  Modules: Day01
   BuildDepends:
     angstrom, cmdliner
 
-Executable "day02"
+Executable "aoc"
   Path: src
-  MainIs: day02.ml
+  MainIs: aoc.ml
   BuildDepends:
-    angstrom, cmdliner
-
-Executable "day03"
-  Path: src
-  MainIs: day03.ml
-  BuildDepends:
-    angstrom, cmdliner
+    angstrom, cmdliner,
+    aoc_days

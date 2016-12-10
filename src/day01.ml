@@ -21,8 +21,6 @@ module Parser = struct
 
   let sep = char ',' *> skip_many (char ' ')
   let instructions = sep_by sep instruction
-
-  let parser = instructions
 end
 
 
@@ -99,12 +97,5 @@ let main_2 walk =
   let loc = find_first_repeat (PairsSet.of_list [(0, 0)]) (0, 0, N) walk in
   print_endline @@ loc_to_str loc
 
-
-let main filename part =
-  let input = parse_input_file Parser.parser filename in
-  match part with
-  | 1 -> main_1 input
-  | 2 -> main_2 input
-  | n -> failwith ("Unknown part: " ^ (string_of_int n))
-
-let () = Args.run_main main
+type t = (turn_dir * int) list
+let parser = Parser.instructions

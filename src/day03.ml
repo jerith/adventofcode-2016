@@ -10,26 +10,6 @@ module Parser = struct
 
   let sep = skip_many (char '\n')
   let triangles = sep_by sep tri
-
-  let parser = triangles
-end
-
-
-module Args = struct
-  open Cmdliner
-
-  let input_filename =
-    let doc = "file containing input data" in
-    Arg.(required & pos 0 (some file) None & info [] ~docv:"FILENAME" ~doc)
-
-  let part =
-    let doc = "part 1 or part 1" in
-    Arg.(required & pos 1 (some int) None & info [] ~docv:"PART" ~doc)
-
-  let run_main mainfunc =
-    let main_t = Term.(const mainfunc $ input_filename $ part) in
-    let info = Term.info "day01" ~doc:"day 1 solver" in
-    match Term.eval (main_t, info) with `Error _ -> exit 1 | _ -> exit 0
 end
 
 
@@ -59,11 +39,5 @@ let main_2 input =
   main_1 @@ horiz_to_vert [] input
 
 
-let main filename part =
-  let input = parse_input_file Parser.triangles filename in
-  match part with
-  | 1 -> main_1 input
-  | 2 -> main_2 input
-  | n -> failwith ("Unknown part: " ^ (string_of_int n))
-
-let () = Args.run_main main
+type t = (int * int * int) list
+let parser = Parser.triangles
