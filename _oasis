@@ -16,11 +16,11 @@ Library "aoc_days"
   Path: src
   Modules: Day01
   BuildDepends:
-    angstrom, cmdliner
+    angstrom, str
 
 Executable "aoc"
   Path: src
   MainIs: aoc.ml
   BuildDepends:
-    angstrom, cmdliner,
+    cmdliner,
     aoc_days

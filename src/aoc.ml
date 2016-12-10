@@ -32,6 +32,7 @@ let days = [
   (module Day01 : Day);
   (module Day02 : Day);
   (module Day03 : Day);
+  (module Day04 : Day);
 ]
 
 let get_day n =
