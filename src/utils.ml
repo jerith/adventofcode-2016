@@ -27,3 +27,4 @@ end
 
 module PairsSet = Set.Make(IntPairs)
 module PairsMap = Map.Make(IntPairs)
+module CharMap = Map.Make(Char)

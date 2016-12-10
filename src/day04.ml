@@ -21,9 +21,6 @@ let room_to_str (name, zone, checksum) =
   name ^ "::" ^ (string_of_int zone) ^ " [" ^ checksum ^ "]"
 
 
-
-module CharMap = Map.Make(Char)
-
 let init_cm freqs i =
   CharMap.add (Char.chr @@ i + Char.code 'a') 0 freqs
 
