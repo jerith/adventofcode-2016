@@ -11,8 +11,15 @@ OASISFormat: 0.4
 BuildTools: ocamlbuild
 Plugins: META (0.4), DevFiles (0.4)
 
+
 Executable "day01"
   Path: src
   MainIs: day01.ml
+  BuildDepends:
+    angstrom, cmdliner
+
+Executable "day02"
+  Path: src
+  MainIs: day02.ml
   BuildDepends:
     angstrom, cmdliner

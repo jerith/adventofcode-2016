@@ -1,3 +1,5 @@
+open Utils
+
 type turn_dir =
   | Left
   | Right
@@ -47,6 +49,13 @@ end
 
 type dir = N | E | S | W
 
+let loc_to_str (n, e, d) =
+  String.concat " " [
+    "N: " ^ (string_of_int n);
+    "E: " ^ (string_of_int e);
+    "D: " ^ (match d with N -> "N" | E -> "E" | S -> "S" | W -> "W");
+    "Total: " ^ (string_of_int @@ (abs n) + (abs e))]
+
 let turn dir turn_dir =
   match (dir, turn_dir) with
   | N, Left | S, Right -> W
@@ -65,26 +74,9 @@ let apply_instruction (n, e, d) (turn_dir, distance) =
 
 
 let main_1 walk =
-  List.fold_left apply_instruction (0, 0, N) walk
+  let loc = List.fold_left apply_instruction (0, 0, N) walk in
+  print_endline @@ loc_to_str loc
 
-
-module IntPairs =
-struct
-  type t = int * int
-  let compare (x0,y0) (x1,y1) =
-    match Pervasives.compare x0 x1 with
-      0 -> Pervasives.compare y0 y1
-    | c -> c
-end
-
-module PairsSet = Set.Make(IntPairs)
-
-let loc_to_str (n, e, d) =
-  String.concat " " [
-    "N: " ^ (string_of_int n);
-    "E: " ^ (string_of_int e);
-    "D: " ^ (match d with N -> "N" | E -> "E" | S -> "S" | W -> "W");
-    "Total: " ^ (string_of_int @@ (abs n) + (abs e))]
 
 let rec walk_and_check visited (n, e, d) blocks =
   match blocks with
@@ -108,16 +100,15 @@ let rec find_first_repeat visited (n, e, d) walk =
       find_first_repeat visited location tl
 
 let main_2 walk =
-  find_first_repeat (PairsSet.of_list [(0, 0)]) (0, 0, N) walk
+  let loc = find_first_repeat (PairsSet.of_list [(0, 0)]) (0, 0, N) walk in
+  print_endline @@ loc_to_str loc
 
 
 let main filename part =
-  let walk = Utils.parse_input_file Parser.instructions filename in
-  let (n, e, d) = match part with
-    | 1 -> main_1 walk
-    | 2 -> main_2 walk
-    | n -> failwith ("Unknown part: " ^ (string_of_int n))
-  in
-  print_endline @@ loc_to_str (n, e, d)
+  let input = parse_input_file Parser.instructions filename in
+  match part with
+  | 1 -> main_1 input
+  | 2 -> main_2 input
+  | n -> failwith ("Unknown part: " ^ (string_of_int n))
 
 let () = Args.run_main main

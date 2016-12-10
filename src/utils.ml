@@ -10,3 +10,20 @@ let parse_input_file a_parser filename =
         | Result.Error msg -> failwith msg)
     | n -> read @@ AB.feed pst @@ `String (Bytes.sub_string buf 0 n)
   in read pstate
+
+
+let map_to_str sep f l =
+  String.concat sep @@ List.map f l
+
+
+module IntPairs =
+struct
+  type t = int * int
+  let compare (x0,y0) (x1,y1) =
+    match Pervasives.compare x0 x1 with
+      0 -> Pervasives.compare y0 y1
+    | c -> c
+end
+
+module PairsSet = Set.Make(IntPairs)
+module PairsMap = Map.Make(IntPairs)
