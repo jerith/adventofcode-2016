@@ -26,13 +26,9 @@ module Parser = struct
   let seq = many1 dir
 
   let sep = skip_many (char '\n')
-
   let instructions = sep_by sep seq
 
-  let parse_input inputstr =
-    match parse_only instructions (`String inputstr) with
-    | Result.Ok v -> v
-    | Result.Error msg -> failwith msg
+  let parser = instructions
 end
 
 
@@ -142,7 +138,7 @@ let main_2 input =
 
 
 let main filename part =
-  let input = parse_input_file Parser.instructions filename in
+  let input = parse_input_file Parser.parser filename in
   match part with
   | 1 -> main_1 input
   | 2 -> main_2 input

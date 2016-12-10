@@ -23,3 +23,9 @@ Executable "day02"
   MainIs: day02.ml
   BuildDepends:
     angstrom, cmdliner
+
+Executable "day03"
+  Path: src
+  MainIs: day03.ml
+  BuildDepends:
+    angstrom, cmdliner

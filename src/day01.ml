@@ -20,13 +20,9 @@ module Parser = struct
         integer >>| fun i -> (d, i))
 
   let sep = char ',' *> skip_many (char ' ')
-
   let instructions = sep_by sep instruction
 
-  let parse_input inputstr =
-    match parse_only instructions (`String inputstr) with
-    | Result.Ok v -> v
-    | Result.Error msg -> failwith msg
+  let parser = instructions
 end
 
 
@@ -105,7 +101,7 @@ let main_2 walk =
 
 
 let main filename part =
-  let input = parse_input_file Parser.instructions filename in
+  let input = parse_input_file Parser.parser filename in
   match part with
   | 1 -> main_1 input
   | 2 -> main_2 input
