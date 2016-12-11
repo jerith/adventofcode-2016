@@ -28,3 +28,4 @@ end
 module PairsSet = Set.Make(IntPairs)
 module PairsMap = Map.Make(IntPairs)
 module CharMap = Map.Make(Char)
+module IntMap = Map.Make(struct type t = int let compare = compare end)
