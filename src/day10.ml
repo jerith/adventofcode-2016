@@ -163,7 +163,7 @@ let rec collect_all_chips actors instructions = function
 
 let print_bots_by_value (bots, outs) =
   let bots = IntMap.bindings bots |> List.map snd in
-  let bcmp {b_chips=bc0} {b_chips=bc1} = Pervasives.compare bc0 bc1 in
+  let bcmp {b_chips=bc0} {b_chips=bc1} = compare bc0 bc1 in
   let bots = List.sort bcmp bots in
   print_endline @@ map_to_str "\n" bot_to_str bots
 
