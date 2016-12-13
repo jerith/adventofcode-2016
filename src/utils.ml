@@ -16,16 +16,26 @@ let map_to_str sep f l =
   String.concat sep @@ List.map f l
 
 
-module IntPairs =
-struct
+let id x = x
+
+
+module IntPairs = struct
   type t = int * int
   let compare (x0,y0) (x1,y1) =
-    match Pervasives.compare x0 x1 with
-      0 -> Pervasives.compare y0 y1
-    | c -> c
+    match compare x0 x1 with 0 -> compare y0 y1 | c -> c
 end
 
 module PairsSet = Set.Make(IntPairs)
 module PairsMap = Map.Make(IntPairs)
 module CharMap = Map.Make(Char)
 module IntMap = Map.Make(struct type t = int let compare = compare end)
+
+
+module P_misc = struct
+  open Angstrom
+
+  let uinteger =
+    take_while1 (function '0' .. '9' -> true | _ -> false) >>| int_of_string
+  let sign = (char '-' *> return (-1)) <|> (return 1)
+  let sinteger = lift2 (fun s i -> s * i) sign uinteger
+end
