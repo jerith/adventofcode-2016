@@ -43,12 +43,15 @@ end
 
 type dir = N | E | S | W
 
+let loc_blocks (n, e, _) = abs n + abs e
+
 let loc_to_str (n, e, d) =
   String.concat " " [
     "N: " ^ (string_of_int n);
     "E: " ^ (string_of_int e);
     "D: " ^ (match d with N -> "N" | E -> "E" | S -> "S" | W -> "W");
-    "Total: " ^ (string_of_int @@ (abs n) + (abs e))]
+    "Total: " ^ (string_of_int @@ loc_blocks (n, e, d))]
+
 
 let turn dir turn_dir =
   match (dir, turn_dir) with
@@ -67,9 +70,10 @@ let apply_instruction (n, e, d) (turn_dir, distance) =
   walk_block (n, e, (turn d turn_dir)) distance
 
 
-let main_1 walk =
-  let loc = List.fold_left apply_instruction (0, 0, N) walk in
-  print_endline @@ loc_to_str loc
+let main_1 input =
+  let loc = List.fold_left apply_instruction (0, 0, N) input in
+  noise_endline @@ loc_to_str loc;
+  loc_blocks loc |> string_of_int
 
 
 let rec walk_and_check visited (n, e, d) blocks =
@@ -93,9 +97,11 @@ let rec find_first_repeat visited (n, e, d) walk =
     | false, visited, location ->
       find_first_repeat visited location tl
 
-let main_2 walk =
-  let loc = find_first_repeat (PairsSet.of_list [(0, 0)]) (0, 0, N) walk in
-  print_endline @@ loc_to_str loc
+let main_2 input =
+  let loc = find_first_repeat (PairsSet.of_list [(0, 0)]) (0, 0, N) input in
+  noise_endline @@ loc_to_str loc;
+  loc_blocks loc |> string_of_int
+
 
 type t = (turn_dir * int) list
 let parser = Parser.instructions

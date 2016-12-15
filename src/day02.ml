@@ -61,10 +61,6 @@ let rec follow_seqs pad button buttons = function
   | [] -> List.rev buttons
   | seq :: seqs ->
     let next_button = follow_seq pad button seq in
-    (* print_endline @@ String.concat "" [ *)
-    (*   (get_button pad button); " -> "; *)
-    (*   String.concat "" @@ List.map dir_to_str_compact seq; *)
-    (*   " -> "; (get_button pad next_button)]; *)
     follow_seqs pad next_button (next_button :: buttons) seqs
 
 let get_start pad =
@@ -96,11 +92,15 @@ let get_keypad_1 () =
     "456";
     "789"]
 
+
+let get_code pad start input =
+  follow_seqs pad start [] input |> map_to_str "" (get_button pad)
+
 let main_1 input =
   let pad = get_keypad_1 () in
   let start = get_start pad in
-  print_endline @@ map_to_str "" (get_button pad)
-    (follow_seqs pad start [] input)
+  get_code pad start input
+
 
 let get_keypad_2 () =
   text_to_keypad [
@@ -113,8 +113,7 @@ let get_keypad_2 () =
 let main_2 input =
   let pad = get_keypad_2 () in
   let start = get_start pad in
-  print_endline @@ map_to_str "" (get_button pad)
-    (follow_seqs pad start [] input)
+  get_code pad start input
 
 type t = dir list list
 let parser = Parser.instructions

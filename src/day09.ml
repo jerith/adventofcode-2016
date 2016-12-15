@@ -78,17 +78,17 @@ let rec subproc collected blocks count =
 
 
 let main_1 input =
-  print_endline @@ map_to_str "" block_to_str input;
+  noise_endline @@ map_to_str "" block_to_str input;
   let lblocks = List.map block_to_lblock input in
-  print_endline @@ map_to_str "" lblock_to_str lblocks;
-  process_lblocks countsize 0 lblocks |> string_of_int |> print_endline
+  noise_endline @@ map_to_str "" lblock_to_str lblocks;
+  process_lblocks countsize 0 lblocks |> string_of_int
 
 
 let main_2 input =
-  print_endline @@ map_to_str "" block_to_str input;
+  noise_endline @@ map_to_str "" block_to_str input;
   let lblocks = List.map block_to_lblock input in
-  print_endline @@ map_to_str "" lblock_to_str lblocks;
-  process_lblocks subproc 0 lblocks |> string_of_int |> print_endline
+  noise_endline @@ map_to_str "" lblock_to_str lblocks;
+  process_lblocks subproc 0 lblocks |> string_of_int
 
 type t = block list
 let parser = Parser.data

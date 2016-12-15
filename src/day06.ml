@@ -37,14 +37,14 @@ let max_freq freqs =
 
 
 let main_1 input =
-  print_endline @@ decode max_freq [] input (String.length @@ List.hd input)
+  decode max_freq [] input (String.length @@ List.hd input)
 
 
 let min_freq freqs =
   CharMap.bindings freqs |> sort_freqlist |> List.rev |> List.hd |> fst
 
 let main_2 input =
-  print_endline @@ decode min_freq [] input (String.length @@ List.hd input)
+  decode min_freq [] input (String.length @@ List.hd input)
 
 
 type t = string list

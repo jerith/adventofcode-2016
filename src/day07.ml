@@ -41,8 +41,7 @@ let rec tls_ip super_abba = function
 
 
 let main_1 input =
-  List.filter (tls_ip false) input |> List.length |> string_of_int |>
-  print_endline
+  List.filter (tls_ip false) input |> List.length |> string_of_int
 
 
 let rec find_abas abas babs s =
@@ -71,8 +70,7 @@ let rec ssl_ip abas babs = function
 
 
 let main_2 input =
-  List.filter (ssl_ip [] []) input |> List.length |> string_of_int |>
-  print_endline
+  List.filter (ssl_ip [] []) input |> List.length |> string_of_int
 
 
 type t = netseg list list

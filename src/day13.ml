@@ -26,10 +26,10 @@ let draw_maze number x y =
     xs |>
     List.map (fun x -> is_wall number (x, y)) |>
     List.map (function true -> "#" | false -> ".") |>
-    String.concat "" |> (fun r -> Printf.printf "%2d %s\n" y r)
+    String.concat "" |> (fun r -> noisef "%2d %s\n" y r)
   in
   let tens x = if x mod 10 = 0 then string_of_int (x / 10) else " " in
-  print_endline @@ String.concat "\n" [
+  noise_endline @@ String.concat "\n" [
     "   " ^ (map_to_str "" (fun x -> if x = 0 then " " else tens x) xs);
     "   " ^ (map_to_str "" (fun x -> x mod 10 |> string_of_int) xs)];
   Array.init y id |> Array.iter draw_row
@@ -69,20 +69,22 @@ let rec find_locs number dist seen = function
 
 let main_1 input =
   let vf = is_wall input in
-  Printf.printf "number: %d v(1, 1): %b v(2, 2): %b\n"
+  noisef "number: %d v(1, 1): %b v(2, 2): %b\n"
     input (vf (1, 1)) (vf (2, 2));
   draw_maze input 20 20;
   let steps = path_to input (31, 39) PairsSet.empty [(0, (1, 1))] in
-  Printf.printf "\nSteps to goal: %d\n" steps
+  noisef "\nSteps to goal: %d\n" steps;
+  string_of_int steps
 
 
 let main_2 input =
   let vf = is_wall input in
-  Printf.printf "number: %d v(1, 1): %b v(2, 2): %b\n"
+  noisef "number: %d v(1, 1): %b v(2, 2): %b\n"
     input (vf (1, 1)) (vf (2, 2));
   draw_maze input 20 20;
   let locs = find_locs input 50 PairsSet.empty [(0, (1, 1))] in
-  Printf.printf "\nLocations reachable in %d steps: %d\n" 50 locs
+  noisef "\nLocations reachable in %d steps: %d\n" 50 locs;
+  string_of_int locs
 
 
 type t = int

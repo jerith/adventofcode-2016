@@ -24,9 +24,10 @@ let check_tri (a, b, c) =
 let main_1 input =
   let add_match c tri = c + match check_tri tri with true -> 1 | false -> 0 in
   let matches = List.fold_left add_match 0 input in
-  print_endline @@ String.concat " " [
+  noise_endline @@ String.concat " " [
     "candidates:"; List.length input |> string_of_int;
-    "triangles:"; string_of_int matches]
+    "triangles:"; string_of_int matches];
+  string_of_int matches
 
 
 let rec horiz_to_vert collected = function

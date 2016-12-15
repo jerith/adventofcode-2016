@@ -17,11 +17,11 @@ let try_pass name i =
   let namei = name ^ (string_of_int i) in
   let md5 = Digest.string namei |> Digest.to_hex in
   (match i mod 500000 with
-   | 0 -> print_endline @@ namei ^ " -> " ^ md5
+   | 0 -> noise_endline @@ namei ^ " -> " ^ md5
    | _ -> ());
   match String.sub md5 0 5 with
   | "00000" ->
-    (print_endline @@ " * " ^ namei ^ " -> " ^ md5;
+    (noise_endline @@ " * " ^ namei ^ " -> " ^ md5;
      Some (md5.[5], md5.[6]))
   | _ -> None
 
@@ -42,7 +42,7 @@ let rec find_digits_seq digits name i = function
 
 
 let main_1 input =
-  print_endline @@ find_digits_seq [] input 0 8
+  find_digits_seq [] input 0 8
 
 
 let digits_to_str digits =
@@ -53,15 +53,15 @@ let digits_to_str digits =
 let set_digit digits p c =
   match p >= '0' && p <= '7' with
   | false -> (
-      print_endline @@ "  ^-- nope: " ^ (Char.escaped p);
+      noise_endline @@ "  ^-- nope: " ^ (Char.escaped p);
       digits)
   | true ->
     match CharMap.mem p digits with
     | true -> (
-        print_endline @@ "  ^-- nope: " ^ (Char.escaped p);
+        noise_endline @@ "  ^-- nope: " ^ (Char.escaped p);
         digits)
     | false -> (
-        print_endline @@ "  ^-- \\o/: " ^
+        noise_endline @@ "  ^-- \\o/: " ^
                          (Char.escaped p) ^ " " ^ (Char.escaped c) ^
                          " " ^ (digits_to_str (CharMap.add p c digits));
         CharMap.add p c digits)
@@ -76,7 +76,7 @@ let rec find_digits_pos digits name i =
 
 
 let main_2 input =
-  print_endline @@ find_digits_pos CharMap.empty input 0
+  find_digits_pos CharMap.empty input 0
 
 
 type t = string

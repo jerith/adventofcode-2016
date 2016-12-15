@@ -33,14 +33,14 @@ let rec first_clear_time t discs =
 
 
 let main_1 input =
-  print_endline @@ map_to_str "\n" disc_to_str input;
-  Printf.printf "First clear time: %d\n" (first_clear_time 0 input)
+  noise_endline @@ map_to_str "\n" disc_to_str input;
+  first_clear_time 0 input |> string_of_int
 
 
 let main_2 input =
   let discs = Disc (List.length input + 1, 11, 0) :: input in
-  print_endline @@ map_to_str "\n" disc_to_str discs;
-  Printf.printf "First clear time: %d\n" (first_clear_time 0 discs)
+  noise_endline @@ map_to_str "\n" disc_to_str discs;
+  first_clear_time 0 discs |> string_of_int
 
 
 type t = disc list

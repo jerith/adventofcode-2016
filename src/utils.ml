@@ -12,6 +12,18 @@ let parse_input_file a_parser filename =
   in read pstate
 
 
+let quiet = ref false
+
+let noise str =
+  match !quiet with
+  | true -> ()
+  | false -> print_string str; flush stdout
+
+let noise_endline str = noise @@ str ^ "\n"
+
+let noisef fmt = Printf.ksprintf noise fmt
+
+
 let map_to_str sep f l =
   String.concat sep @@ List.map f l
 

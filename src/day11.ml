@@ -98,7 +98,7 @@ let print_rtf_floor rtf floor =
     | false -> " . "
   in
   let device_blocks = List.map dev_block all_devices in
-  print_endline @@ String.concat " " (fnum :: safe :: elev :: device_blocks)
+  noise_endline @@ String.concat " " (fnum :: safe :: elev :: device_blocks)
 
 let print_rtf rtf =
   List.iter (fun f -> print_rtf_floor rtf f) rtf.floors
@@ -154,7 +154,7 @@ let move_device src dst rtf device =
 exception Unsafe_move
 
 let move_devices rtf src dst devices =
-  Printf.printf "%d -> %d [%s]\n"
+  noisef "%d -> %d [%s]\n"
     src dst (map_to_str ", " dev_to_blockstr devices);
   match devices with
   | [] -> failwith "Elevator won't operate when empty."
@@ -177,7 +177,7 @@ let try_move rtf src dst devs =
 
 let rec auto_move n rtf =
   print_rtf rtf;
-  Printf.printf "Move %d: " (n+1);
+  noisef "Move %d: " (n+1);
   (if devices_below rtf then auto_move_below else auto_move_nobelow) n rtf
 
 and auto_move_below n rtf =
@@ -188,7 +188,7 @@ and auto_move_below n rtf =
       match try_move rtf e (e-1) [device] with
       | true, rtf -> auto_move (n+1) rtf
       | false, _ ->
-        print_endline "backtrack!";
+        noise_endline "backtrack!";
         amb devices
   in
   amb floor.devices
@@ -207,11 +207,11 @@ and auto_move_nobelow n rtf =
       match try_move rtf e (e+1) pair with
       | true, rtf -> auto_move (n+1) rtf
       | false, _ ->
-        print_endline "backtrack!";
+        noise_endline "backtrack!";
         amn pairs
   in
   match e with
-  | 4 -> print_endline "Done, no need to move."; true, n
+  | 4 -> noise_endline "Done, no need to move."; true, n
   | _ ->
     match floor.devices with
     | [] -> failwith "Nothing on this floor"
@@ -222,11 +222,11 @@ and auto_move_nobelow n rtf =
 
 
 let main_1 input =
-  map_to_str "\n" floor_to_str input |> print_endline;
+  map_to_str "\n" floor_to_str input |> noise_endline;
   let rtf = {floors=[]; kinds=[]; elevator=1} in
   let rtf = build_rtf rtf 1 input in
   match auto_move 0 rtf with
-  | true, n -> string_of_int n |> print_endline
+  | true, n -> string_of_int n
   | false, _ -> failwith "no solution found"
 
 
@@ -237,7 +237,7 @@ let add_to_floor floor rtf device =
 
 
 let main_2 input =
-  map_to_str "\n" floor_to_str input |> print_endline;
+  map_to_str "\n" floor_to_str input |> noise_endline;
   let rtf = {floors=[]; kinds=[]; elevator=1} in
   let rtf = build_rtf rtf 1 input in
   let rtf =
@@ -249,7 +249,7 @@ let main_2 input =
     ]
   in
   match auto_move 0 rtf with
-  | true, n -> string_of_int n |> print_endline
+  | true, n -> string_of_int n
   | false, _ -> failwith "no solution found"
 
 type t = floor list

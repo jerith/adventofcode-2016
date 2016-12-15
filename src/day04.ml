@@ -75,8 +75,8 @@ let decipher (name, zone, checksum) =
   String.map (shift_char zone) name
 
 
-let proc_room (name, zone, checksum as room) =
-  print_endline @@ String.concat " " [
+let print_room (name, zone, checksum as room) =
+  noise_endline @@ String.concat " " [
     decipher room;
     "     ";
     room_to_str room;
@@ -87,8 +87,7 @@ let main_1 input =
   input |>
   List.filter (fun (n, z, c) -> String.equal c (compute_checksum n)) |>
   List.fold_left (fun sum (n, z, c) -> sum + z) 0 |>
-  string_of_int |>
-  print_endline
+  string_of_int
 
 
 let filter_north room =
@@ -97,12 +96,14 @@ let filter_north room =
   try ignore (Str.search_forward re plaintext 0); true with _ -> false
 
 let main_2 input =
-  (* List.iter proc_room input; *)
-  input |>
-  List.filter filter_north |>
+  (* List.iter print_room input; *)
+  let filtered = List.filter filter_north input in
+  filtered |>
   map_to_str "\n" (fun room ->
       String.concat " " [decipher room; room_to_str room]) |>
-  print_endline
+  noise_endline;
+  let _, zone, _ = List.hd filtered in
+  string_of_int zone
 
 
 type t = (string * int * string) list

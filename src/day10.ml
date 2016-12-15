@@ -87,7 +87,7 @@ let print_actors (bots, outs) =
   let outstr =
     IntMap.bindings outs |> List.map snd |> map_to_str "\n" output_to_str
   in
-  print_endline @@ botstr ^ "\n" ^ outstr
+  noise_endline @@ botstr ^ "\n" ^ outstr
 
 
 let set_bot_targets bots b al ah =
@@ -150,10 +150,10 @@ let rec collect_chips actors = function
 
 let rec collect_all_chips actors instructions = function
   | 0 ->
-    print_endline "All chips distributed.";
+    noise_endline "All chips distributed.";
     actors
   | missing ->
-    print_endline @@ "Chips still missing: " ^ (string_of_int missing);
+    noise_endline @@ "Chips still missing: " ^ (string_of_int missing);
     let actors = collect_chips actors instructions in
     let new_missing = check_incomplete actors in
     match missing - new_missing with
@@ -165,21 +165,29 @@ let print_bots_by_value (bots, outs) =
   let bots = IntMap.bindings bots |> List.map snd in
   let bcmp {b_chips=bc0} {b_chips=bc1} = compare bc0 bc1 in
   let bots = List.sort bcmp bots in
-  print_endline @@ map_to_str "\n" bot_to_str bots
+  noise_endline @@ map_to_str "\n" bot_to_str bots
 
 
 let main_1 input =
   let actors = collect_actors (IntMap.empty, IntMap.empty) input in
   let actors = set_bots_targets actors input in
   let actors = collect_all_chips actors input (check_incomplete actors) in
-  print_bots_by_value actors
-
+  print_bots_by_value actors;
+  let bot_17_61 =
+    IntMap.bindings (fst actors) |> List.map snd |>
+    List.filter (fun {b_chips=bc} -> bc = [17; 61]) |> List.hd
+  in
+  string_of_int bot_17_61.b_id
 
 let main_2 input =
   let actors = collect_actors (IntMap.empty, IntMap.empty) input in
   let actors = set_bots_targets actors input in
   let actors = collect_all_chips actors input (check_incomplete actors) in
-  print_actors actors
+  print_actors actors;
+  let get_out i = IntMap.find i (snd actors) in
+  let outs_0_1_2 = [get_out 0; get_out 1; get_out 2] in
+  string_of_int @@ List.fold_left (fun a {o_chips} -> List.hd o_chips * a)
+    1 outs_0_1_2
 
 type t = instruction list
 let parser = Parser.instructions

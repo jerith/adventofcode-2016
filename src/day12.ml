@@ -72,7 +72,7 @@ let print_computer {registers; instructions; ip} =
     Printf.sprintf " %c %s" (if i = ip then '*' else ' ') (instr_to_str inst)
   in
   let inst_strs = List.mapi inst_to_str (Array.to_list instructions) in
-  print_endline @@ String.concat "\n" [
+  noise_endline @@ String.concat "\n" [
     "-------------------";
     "Registers:";
     String.concat "\n" reg_strs;
@@ -127,14 +127,14 @@ let rec run computer =
 let main_1 input =
   let computer = boot input in
   let computer = run computer in
-  Printf.printf "\na = %d\n" (CharMap.find 'a' computer.registers)
+  CharMap.find 'a' computer.registers |> string_of_int
 
 
 let main_2 input =
   let computer = boot input in
   let computer = {computer with registers = setreg 1 computer.registers 'c'} in
   let computer = run computer in
-  Printf.printf "\na = %d\n" (CharMap.find 'a' computer.registers)
+  CharMap.find 'a' computer.registers |> string_of_int
 
 type t = instruction list
 let parser = Parser.instructions
