@@ -78,11 +78,12 @@ let main_1 input =
   List.fold_left update_screen (mkscreen 50 6) input |>
   count_pixels |> string_of_int
 
+
 let main_2 input =
-  List.fold_left update_screen (mkscreen 50 6) input |>
-  screen_to_str' "#" " " |> noise_endline;
-  (* TODO: Turn this into a string. *)
-  ""
+  let screen = List.fold_left update_screen (mkscreen 50 6) input in
+  let screen_str = screen_to_str' "#" " " screen in
+  noise_endline screen_str;
+  Font.parse_chars screen_str
 
 type t = instruction list
 let parser = Parser.instructions
