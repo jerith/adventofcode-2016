@@ -16,6 +16,14 @@ let map_to_str sep f l =
   String.concat sep @@ List.map f l
 
 
+let list_of_chars string =
+  let rec to_list chars = function
+    | "" -> List.rev chars
+    | s -> to_list (s.[0] :: chars) (Str.string_after s 1)
+  in
+  to_list [] string
+
+
 let id x = x
 
 
@@ -29,6 +37,7 @@ module PairsSet = Set.Make(IntPairs)
 module PairsMap = Map.Make(IntPairs)
 module CharMap = Map.Make(Char)
 module IntMap = Map.Make(struct type t = int let compare = compare end)
+module StringMap = Map.Make(String)
 
 
 module P_misc = struct
@@ -38,4 +47,8 @@ module P_misc = struct
     take_while1 (function '0' .. '9' -> true | _ -> false) >>| int_of_string
   let sign = (char '-' *> return (-1)) <|> (return 1)
   let sinteger = lift2 (fun s i -> s * i) sign uinteger
+
+  let letters =
+    take_while1 (function 'a' .. 'z' | 'A' .. 'Z' -> true | _ -> false)
+
 end
