@@ -1,6 +1,9 @@
+let wrap_parser a_parser =
+  Angstrom.(a_parser <* skip_many end_of_line <* end_of_input)
+
 let parse_input_file a_parser filename =
   let module AB = Angstrom.Buffered in
-  let pstate = AB.parse a_parser in
+  let pstate = AB.parse (wrap_parser a_parser) in
   let inch = open_in_bin filename in
   let buf = Bytes.create 4096 in
   let rec read pst =
@@ -27,14 +30,12 @@ let noisef fmt = Printf.ksprintf noise fmt
 let map_to_str sep f l =
   String.concat sep @@ List.map f l
 
-
 let list_of_chars string =
   let rec to_list chars = function
-    | "" -> List.rev chars
-    | s -> to_list (s.[0] :: chars) (Str.string_after s 1)
+    | 0 -> chars
+    | i -> to_list (string.[i-1] :: chars) (i-1)
   in
-  to_list [] string
-
+  to_list [] (String.length string)
 
 let id x = x
 
