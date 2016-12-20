@@ -17,18 +17,19 @@ let parse_input_file a_parser filename =
 
 let quiet = ref false
 
-let noise str =
+let ifnoise f =
   match !quiet with
   | true -> ()
-  | false -> print_string str; flush stdout
+  | false -> f ()
 
+let noise str = ifnoise (fun () -> print_string str; flush stdout)
 let noise_endline str = noise @@ str ^ "\n"
-
 let noisef fmt = Printf.ksprintf noise fmt
 
 
 let map_to_str sep f l =
-  String.concat sep @@ List.map f l
+  String.concat sep @@ List.rev_map f (List.rev l)
+
 
 let list_of_chars string =
   let rec to_list chars = function
