@@ -66,3 +66,7 @@ module P_misc = struct
     take_while1 (function 'a' .. 'z' | 'A' .. 'Z' -> true | _ -> false)
 
 end
+
+let tuple2 a b = a, b
+let tuple3 a b c = a, b, c
+let tuple4 a b c d = a, b, c, d
