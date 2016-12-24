@@ -40,6 +40,15 @@ let list_of_chars string =
 
 let id x = x
 
+let llen = List.length
+let slen = String.length
+let alen = Array.length
+
+let sum = List.fold_left (+) 0
+let reduce f l = List.fold_left f (List.hd l) (List.tl l)
+
+let pairstr (a, b) = Printf.sprintf "%d,%d" a b
+
 
 module IntPairs = struct
   type t = int * int
