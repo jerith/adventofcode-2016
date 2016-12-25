@@ -1,0 +1,5 @@
+PKG angstrom cmdliner
+
+S src
+
+B _build/src

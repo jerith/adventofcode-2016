@@ -1,0 +1,26 @@
+Name: AdventOfCode2016
+Version: 0.1
+Synopsis: Solutions to the Advent of Code puzzles
+Authors: Jeremy Thurgood <firxen@gmail.com>
+License: Expat
+
+Description: Solutions to the Advent of Code puzzles.
+Homepage: http://example.com
+
+OASISFormat: 0.4
+BuildTools: ocamlbuild
+Plugins: META (0.4), DevFiles (0.4)
+
+
+Library "aoc_days"
+  Path: src
+  Modules: Day01
+  BuildDepends:
+    angstrom, str
+
+Executable "aoc"
+  Path: src
+  MainIs: aoc.ml
+  BuildDepends:
+    cmdliner,
+    aoc_days
