@@ -1,7 +1,9 @@
 Advent of Code 2016
 -------------------
 
-There are many sets of solutions. This one is mine.
+There are many sets of solutions to
+[Advent of Code 2016](http://adventofcode.com/2016/). This one is mine. It's in
+OCaml.
 
 The code is structured as a wrapper/driver module (`src/aoc.ml`), a separate
 module for each day that implements a common module type (`src/dayNN.ml`) and a
